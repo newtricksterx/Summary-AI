@@ -46,7 +46,7 @@ def CreateQuery(url, length, regenerate, format, language):
             Remove any ```html and ``` tags from the response.
             """
 
-    print(query)
+    #print(query)
     
     return query
     

@@ -19,7 +19,9 @@ export const all_formats: Format[] = [
 
 export const MenuIconSize = 20;
 
-export const isDebugMode = false;
+export const isDebugMode = true;
+
+export const BASE_URL = 'http://3.133.132.147:8000';
 
 export const test_result = `- The page is titled "Example Domain."
 - It is designated for illustrative purposes in documents.

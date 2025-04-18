@@ -1,11 +1,12 @@
 import './App.css'
 import { useState } from 'react'
 import MenuBar from './components/MenuBar'
-import { isDebugMode } from './utils/constants'
+import { BASE_URL, isDebugMode } from './utils/constants'
 import { useSettingsStore } from './stores/settingsStore'
 import { GetPageFromStorage, GetSummaryFromStorage, UpdatePageStorage, UpdateSummaryStorage } from './utils/storage'
 import { NotebookPen } from 'lucide-react';
 import LoaderCircle from './components/LoaderCircle'
+
 
 function App() {
   const [currentPage, SetCurrentPage] = useState(GetPageFromStorage());
@@ -55,6 +56,9 @@ function App() {
   const Summarize = async (regenerateBool: boolean) => {
     SetSummarizedContent(null)
 
+    //console.log("BASE URL: " + BASE_URL)
+    //console.log("Debug Mode: " + isDebugMode)
+
     if(isDebugMode){
       const query = "summarize the content in this page: (text), where the length is: " + length.toString() + 
       `. ${regenerateBool ? "It also must be a different version" : ""}` + Math.floor(Math.random() * 100).toString(); 
@@ -82,10 +86,10 @@ function App() {
     console.log(results[0].result!)
     */
 
-    console.log("Lang: "+language)
+    
 
     try {
-      const response = await fetch('http://localhost:8000/api/summarize', {
+      const response = await fetch(`${BASE_URL}/api/summarize`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +130,7 @@ function App() {
   }
 
   const onClickRegenerate = async () => {
-    console.log("regenerate")
+    //console.log("regenerate")
     await Summarize(true);
   }
 

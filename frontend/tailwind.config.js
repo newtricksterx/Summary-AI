@@ -7,5 +7,11 @@ module.exports = {
     theme: {
         extend: {},
     },
-    plugins: [],
+    plugins: [      
+        new webpack.ProvidePlugin(
+            {
+                process: 'process/browser',
+            }
+        ),
+    ],
 };

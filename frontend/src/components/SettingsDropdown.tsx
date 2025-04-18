@@ -18,6 +18,7 @@ export default function SettingsDropdown() {
     const [length, SetLength] = useState<Length>(settings_length);
     const [fontSize, SetFontSize] = useState<Number>(settings_fontSize);
     const [format, SetFormat] = useState<Format>(settings_format)
+    const [saved, SetSaved] = useState(false);
 
     const UpdateLang = useSettingsStore((state) => state.UpdateLanguage);
     const UpdateLength = useSettingsStore((state) => state.UpdateLength);
@@ -38,12 +39,17 @@ export default function SettingsDropdown() {
         return displayStatus === "block" ? "bg-gray-100 dark:bg-[#373737]" : "bg-white dark:bg-[#303030]" 
     }
 
+    function savedActive(){
+        return saved ? "opacity-50" : "cursor-pointer"
+    }
+
     function onSaveSettings(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         UpdateLang(language);
         UpdateLength(length);
         UpdateFontSize(fontSize);
         UpdateFormat(format);
+        SetSaved(true);
     }
 
     return (
@@ -54,33 +60,46 @@ export default function SettingsDropdown() {
             <div className={`${displayStatus} absolute border-2 font-noto bg-white border-gray-200 dark:bg-[#303030] dark:border-[#373737] shadow-xs py-2 rounded-lg right-0`}>
                 <form className="flex flex-col items-start gap-1" onSubmit={(e) => onSaveSettings(e)}>
                     <div className="flex flex-row gap-2 w-full px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-600">
-                        <Dropdown title="language" list={all_languages} onChangeDropdown={(e) => 
+                        <Dropdown title="language" list={all_languages} onChangeDropdown={(e) => {
                             SetLanguage(e.target.value as Language)
+                            SetSaved(false);
+                        }
+                            
                         } value={language} name='languages' id='lang'/>
                     </div>
 
                     <div className="flex flex-row gap-2 w-full px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-600">
                         <Dropdown title="summary format" list={all_formats} onChangeDropdown={(e) => 
+                        {
+                            SetSaved(false);
                             SetFormat(e.target.value as Format)
+                        }
+                            
                         } value={format} name='formats' id='format'/>
                     </div>
 
                     <div className="flex flex-row gap-2 w-full  px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-600">
-                        <Dropdown title="summary length" list={all_lengths} onChangeDropdown={(e) => 
+                        <Dropdown title="summary length" list={all_lengths} onChangeDropdown={(e) => {
+                            SetSaved(false);
                             SetLength(e.target.value as Length)
+                        }
+                            
                         } value={length} name='lengths' id='length'/>
                     </div>
 
                     <div className="flex flex-row w-full px-4 gap-2 py-2 hover:bg-gray-200 dark:hover:bg-gray-600 border-b-2 border-b-gray-200 dark:border-b-[#373737]">
                         <input title="font size" className="w-[50px]" min={5} type="number" value={fontSize.toString()} 
-                            onChange={(e) => SetFontSize(Number(e.target.value))} name="font-size" id="font-size" />
+                             name="font-size" id="font-size" onChange={(e) => {
+                                SetSaved(false);
+                                SetFontSize(Number(e.target.value))
+                            }}/>
                     </div>
 
                     <div className="flex flex-row w-full justify-center items-center">
                         <button 
-                            className="flex flex-row gap-2 items-center cursor-pointer border-0 rounded-2xl bg-[#303030] text-gray-100 hover:bg-[#373737]
-                            dark:bg-gray-100 dark:text-black py-1 px-2 dark:hover:bg-gray-200 text-[14px] my-1" 
-                            type="submit">
+                            className={`flex flex-row gap-2 items-center border-0 rounded-2xl bg-[#303030] text-gray-100 hover:bg-[#373737]
+                            dark:bg-gray-100 dark:text-black py-1 px-2 dark:hover:bg-gray-200 text-[14px] my-1 ${savedActive()}` }
+                            type="submit" disabled={saved} title="Save settings">
                             <Save size={MenuIconSize}/>
                             Save
                         </button>
