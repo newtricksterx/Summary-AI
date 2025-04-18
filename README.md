@@ -34,3 +34,10 @@ Once the summary is ready, it will be displayed in the popup window according to
 ### Step 6: Regenerate If Needed
 Not quite what you wanted? Click the Regenerate button to create a new version of the summary. Each regenerated summary will follow your current settings and may offer a different phrasing or structure.
 
+## Development Roadmap
++ Extension can also summarize video transcripts
++ Export to PDF, Markdown, etc
++ Copy to clipboard
++ Additional analysis on the contents of the page (i.e. positive, negative, neutral)
++ Can go to past summaries
+
